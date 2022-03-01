@@ -16,6 +16,8 @@ public class Move : MonoBehaviour
     static int moveState = Animator.StringToHash("Walk");
     static int JumpState = Animator.StringToHash("Jump");
     static int attackState = Animator.StringToHash("Attack");
+
+    IState state;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,7 @@ public class Move : MonoBehaviour
         rigidBody = this.GetComponent<Rigidbody>();
         bodyAnimator = this.GetComponent<Animator>();
 
+        
     }
 
     // Update is called once per frame
@@ -63,15 +66,17 @@ public class Move : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             bodyAnimator.SetBool("Attack", true);
+            this.transform.Find("HitArea").gameObject.SetActive(true);
         }
         if (states.shortNameHash == attackState)
         {
             if (!bodyAnimator.IsInTransition(0))
             {
                 bodyAnimator.SetBool("Attack", false);
+                this.transform.Find("HitArea").gameObject.SetActive(false);
             }
         }
 
-
+        //state.update();
     }
 }
